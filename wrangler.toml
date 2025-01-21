@@ -1,0 +1,7 @@
+name = "SimpleUploader"
+main = "src/index.ts"
+compatibility_date = "2025-01-21"
+
+[[r2_buckets]]
+binding = "R2_HTML"
+bucket_name = "url-v3-html"
