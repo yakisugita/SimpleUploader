@@ -1,5 +1,5 @@
-name = "SimpleUploader"
-main = "src/index.ts"
+name = "simple-uploader"
+main = "src/index.tsx"
 compatibility_date = "2025-01-21"
 
 [[r2_buckets]]
