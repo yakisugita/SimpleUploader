@@ -2,6 +2,6 @@ name = "simple-uploader"
 main = "src/index.tsx"
 compatibility_date = "2025-01-21"
 
-#[[r2_buckets]]
-#binding = "R2_HTML"
-#bucket_name = "url-v3-html"
+[[r2_buckets]]
+binding = "R2_BUCKET"
+bucket_name = "simple-uploader-storage"
