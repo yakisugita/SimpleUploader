@@ -56,7 +56,7 @@ app.post("/", async (c:any) => {
     if (typeof(file) == "object") {
         const blob = new Blob([file], { type: file.type })
         
-        await c.env.R2_HTML.put(file.name, blob)
+        await c.env.R2_BUCKET.put(file.name, blob)
 
         return c.text("File Uploaded")
     } else {
