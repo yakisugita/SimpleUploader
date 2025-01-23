@@ -18,6 +18,7 @@ const Layout: FC = (props) => {
 
 app.get("/", async (c) => {
     const list = await c.env.R2_BUCKET.list()
+    console.log(list)
     return c.text("TOP PAGE" + list.length)
 })
 
