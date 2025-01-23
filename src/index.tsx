@@ -52,6 +52,9 @@ app.get("/", async (c) => {
 app.post("/", async (c) => {
     const body = await c.req.parseBody()
     const file = body['file']
+    console.log(typeof(file))
+    // if (typeof(file) == "ob")
+    const blob = new Blob([body['file']], { type: body['file'].type })
     console.log(file.type)
     console.log(body)
     console.log(body['file']) // File | string
