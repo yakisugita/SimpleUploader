@@ -16,6 +16,18 @@ const Layout: FC = (props) => {
 }
 
 
+const Form: FC = (props) => {
+    return(
+        <Layout>
+            <form enctype="multipart/form-data" method="post">
+            <input name="user_file_name" type="file" />
+            <input type="submit" value="Upload" />
+            </form>
+        </Layout>
+    )
+}
+
+
 const Top: FC<{ files: any[] }> = (props: {
     files: any[]
   }) => {
@@ -24,7 +36,7 @@ const Top: FC<{ files: any[] }> = (props: {
         <h1>Hello Hono!</h1>
         <ul>
           {props.files.map((file) => {
-            return <li>{file.key}!!</li>
+            return <li>{file.key}</li>
           })}
         </ul>
       </Layout>
