@@ -42,6 +42,15 @@ const Top: FC<{ files: any[] }> = (props: {
     )
   }
 
+const Result: FC<{ message: string} > = (props: { message: string}) => {
+    return (
+        <Layout>
+            <h1>{props.message}</h1>
+            <a href="/">Return To TOP</a>
+        </Layout>
+    )
+}
+
 
 app.get("/", async (c:any) => {
     const r2List = await c.env.R2_BUCKET.list()
@@ -54,13 +63,19 @@ app.post("/", async (c:any) => {
     const file = body['file'] // File | string
     console.log(typeof(file))
     if (typeof(file) == "object") {
-        const blob = new Blob([file], { type: file.type })
+        // 同名のファイルがないかチェック
+        const object = await c.env.R2_BUCKET.get(file.name)
+        if (object === null) {
+            const blob = new Blob([file], { type: file.type })
         
-        await c.env.R2_BUCKET.put(file.name, blob)
+            await c.env.R2_BUCKET.put(file.name, blob)
 
-        return c.text("File Uploaded")
+            return c.html(<Result message="Success" />, 200)
+        } else {
+            return c.html(<Result message="Conflict" />, 409)
+        }
     } else {
-        return c.text("Bad Request", 400)
+        return c.html(<Result message="Bad Request" />, 400)
     }
 })
 
