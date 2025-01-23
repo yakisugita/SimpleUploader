@@ -31,11 +31,11 @@ const Top: FC<{ files: any[] }> = (props: {
   }) => {
     return (
       <Layout>
-        <h1>Hello Hono!</h1>
+        <h1>Simple Uploader</h1>
         <Form></Form>
         <ul>
           {props.files.map((file) => {
-            return <li>{file.key}</li>
+            return <li><a href={"/"+file.key}>{file.key}</a></li>
           })}
         </ul>
       </Layout>
