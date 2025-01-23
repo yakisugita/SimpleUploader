@@ -49,4 +49,11 @@ app.get("/", async (c) => {
     return c.html(<Top files={r2List.objects} />)
 })
 
+app.post("/", async (c) => {
+    const body = await c.req.parseBody()
+    console.log(body)
+    console.log(body['file']) // File | string
+    return c.text("POST /")
+})
+
 export default app
