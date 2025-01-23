@@ -51,13 +51,14 @@ const Result: FC<{ message: string} > = (props: { message: string}) => {
     )
 }
 
-
+// TOP ファイル一覧表示
 app.get("/", async (c:any) => {
     const r2List = await c.env.R2_BUCKET.list()
     console.log(r2List.objects)
     return c.html(<Top files={r2List.objects} />)
 })
 
+// アップロード
 app.post("/", async (c:any) => {
     const body = await c.req.parseBody()
     const file = body['file'] // File | string
@@ -76,6 +77,20 @@ app.post("/", async (c:any) => {
         }
     } else {
         return c.html(<Result message="Bad Request" />, 400)
+    }
+})
+
+// 削除
+
+// ダウンロード
+app.get("/:filename", async (c:any) => {
+    const fileName:string = c.req.param("filename")
+
+    const object = await c.env.R2_BUCKET.get(fileName)
+    if (object !== null) {
+        return c.body(object.body)
+    } else {
+        return c.notFound()
     }
 })
 
