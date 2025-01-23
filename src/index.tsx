@@ -19,7 +19,7 @@ const Layout: FC = (props) => {
 const Form: FC = (props) => {
     return(
         <form enctype="multipart/form-data" method="post">
-        <input name="user_file_name" type="file" />
+        <input name="file" type="file" />
         <input type="submit" value="Upload" />
         </form>
     )
