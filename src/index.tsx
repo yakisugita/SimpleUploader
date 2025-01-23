@@ -51,6 +51,8 @@ app.get("/", async (c) => {
 
 app.post("/", async (c) => {
     const body = await c.req.parseBody()
+    const file = body['file']
+    console.log(file.type)
     console.log(body)
     console.log(body['file']) // File | string
     return c.text("POST /")
