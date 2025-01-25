@@ -19,10 +19,12 @@ app.use("*", async (c:any, next) => {
   console.log(pass)
 
   if (user !== null && user != "" && pass !== null && pass != "") {
+    console.log("set basicAuth")
     basicAuth({
         username: user,
         password: pass,
     })
+    console.log("set basicAuth")
   }
 
   await next
