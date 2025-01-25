@@ -14,6 +14,10 @@ const app = new Hono()
 app.use("*", async (c:any, next) => {
   const user = c.env.USER
   const pass = c.env.PASSWORD
+
+  console.log(user)
+  console.log(pass)
+
   if (user !== null || user != "" || pass !== null || pass != "") {} else {
     basicAuth({
         username: user,
