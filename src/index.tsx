@@ -16,10 +16,16 @@ app.use("*", basicAuth({
             const user = c.env.USER
             const pass = c.env.PASSWORD
             if (user !== null && user != "" && pass !== null && pass != "") {
-                return true
-            } else if (username === user && password === pass) {
-                return true
+                // Basic認証が有効
+                if (username === user && password === pass) {
+                    // 認証成功
+                    return true
+                } else {
+                    // 認証失敗
+                    return false
+                }
             } else {
+                // Basic認証が無効
                 return false
             }
         },
