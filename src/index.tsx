@@ -11,25 +11,20 @@ type Env =  {
 const app = new Hono()
 
 // ユーザー名,パスワードが設定されていればBasic認証を設定
-app.use("*", async (c:any, next) => {
-  const user = c.env.USER
-  const pass = c.env.PASSWORD
-
-  console.log(user)
-  console.log(pass)
-
-  if (user !== null && user != "" && pass !== null && pass != "") {
-    console.log("set basicAuth")
-    const authResult:any = await basicAuth({
-        username: user,
-        password: pass,
+app.use("*", basicAuth({
+        verifyUser: (username, password, c) => {
+            const user = c.env.USER
+            const pass = c.env.PASSWORD
+            if (user !== null && user != "" && pass !== null && pass != "") {
+                return true
+            } else if (username === user && password === pass) {
+                return true
+            } else {
+                return false
+            }
+        },
     })
-    console.log("set basicAuth")
-    console.log(authResult)
-  }
-
-  await next()
-})
+)
 
 const Layout: FC = (props) => {
     return (
