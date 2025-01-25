@@ -15,11 +15,14 @@ app.use("*", async (c:any, next) => {
   const user = c.env.USER
   const pass = c.env.PASSWORD
 
+  console.log(user)
+  console.log(pass)
+
   if (user !== null && user != "" && pass !== null && pass != "") {
     basicAuth({
         username: user,
         password: pass,
-      })
+    })
   }
 
   await next
