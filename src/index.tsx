@@ -1,8 +1,11 @@
 import { Hono } from "hono"
 import type { FC } from "hono/jsx"
+import { basicAuth } from 'hono/basic-auth'
 
 type Env =  {
     R2_BUCKET: R2Bucket
+    USER: string
+    PASSWORD: string
 }
 
 const app = new Hono()
@@ -55,6 +58,10 @@ const Result: FC<{ message: string} > = (props: { message: string}) => {
 app.get("/", async (c:any) => {
     const r2List = await c.env.R2_BUCKET.list()
     console.log(r2List.objects)
+
+    console.log(c.env.USER)
+    console.log(c.env.PASSWORD)
+
     return c.html(<Top files={r2List.objects} />)
 })
 
