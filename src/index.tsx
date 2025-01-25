@@ -10,6 +10,21 @@ type Env =  {
 
 const app = new Hono()
 
+// ユーザー名,パスワードが設定されていればBasic認証を設定
+app.use("*", async (c:any, next) => {
+  const user = c.env.USER
+  const pass = c.env.PASSWORD
+  if (user !== null || user != "" || pass !== null || pass != "") {} else {
+    basicAuth({
+        username: user,
+        password: pass,
+      })
+  }
+
+  await next
+()
+})
+
 const Layout: FC = (props) => {
     return (
         <html>
@@ -58,9 +73,6 @@ const Result: FC<{ message: string} > = (props: { message: string}) => {
 app.get("/", async (c:any) => {
     const r2List = await c.env.R2_BUCKET.list()
     console.log(r2List.objects)
-
-    console.log(c.env.USER)
-    console.log(c.env.PASSWORD)
 
     return c.html(<Top files={r2List.objects} />)
 })
