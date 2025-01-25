@@ -20,7 +20,7 @@ app.use("*", async (c:any, next) => {
 
   if (user !== null && user != "" && pass !== null && pass != "") {
     console.log("set basicAuth")
-    const authResult:any = basicAuth({
+    const authResult:any = await basicAuth({
         username: user,
         password: pass,
     })
