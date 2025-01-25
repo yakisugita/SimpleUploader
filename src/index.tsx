@@ -20,15 +20,15 @@ app.use("*", async (c:any, next) => {
 
   if (user !== null && user != "" && pass !== null && pass != "") {
     console.log("set basicAuth")
-    basicAuth({
+    const authResult:any = basicAuth({
         username: user,
         password: pass,
     })
     console.log("set basicAuth")
+    console.log(authResult)
   }
 
-  await next
-()
+  await next()
 })
 
 const Layout: FC = (props) => {
