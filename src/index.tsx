@@ -41,11 +41,24 @@ const Layout: FC = (props) => {
 }
 
 
-const Form: FC = (props) => {
+const Form1: FC = () => {
     return(
         <form enctype="multipart/form-data" method="post">
         <input name="file" type="file" />
         <input type="submit" value="Upload" />
+        </form>
+    )
+}
+const Form2: FC<{ files: any[] }> = (props : { files: any[] }) => {
+    return(
+        <form method="post">
+        <select name="filename">
+            <option value="">--target to delete--</option>
+            {props.files.map((file) => {
+                return <option value={file.key}>{file.key}</option>
+            })}
+        </select>
+        <input type="submit" value="Delete" />
         </form>
     )
 }
@@ -57,7 +70,8 @@ const Top: FC<{ files: any[] }> = (props: {
     return (
       <Layout>
         <h1>Simple Uploader</h1>
-        <Form></Form>
+        <Form1></Form1>
+        <Form2 files={props.files}></Form2>
         <ul>
           {props.files.map((file) => {
             return <li><a href={"/"+file.key}>{file.key}</a></li>
@@ -84,12 +98,14 @@ app.get("/", async (c:any) => {
     return c.html(<Top files={r2List.objects} />)
 })
 
-// アップロード
+// アップロードor削除
 app.post("/", async (c:any) => {
     const body = await c.req.parseBody()
     const file = body['file'] // File | string
+    const delFile = body["filename"]
     console.log(typeof(file))
     if (typeof(file) == "object") {
+        // アップロード
         // 同名のファイルがないかチェック
         const object = await c.env.R2_BUCKET.get(file.name)
         if (object === null) {
@@ -101,12 +117,14 @@ app.post("/", async (c:any) => {
         } else {
             return c.html(<Result message="Conflict" />, 409)
         }
+    } else if (typeof(delFile) == "string") {
+        // 削除
+        await c.env.R2_BUCKET.delete(delFile)
+        return c.html(<Result message="Success" />, 200)
     } else {
         return c.html(<Result message="Bad Request" />, 400)
     }
 })
-
-// 削除
 
 // ダウンロード
 app.get("/:filename", async (c:any) => {
